@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_china/tools/scroll_behavior_modified.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'package:flutter_china/pages/my_home_page.dart';
 import 'package:flutter_china/pages/routes_a_page.dart';
 import 'package:flutter_china/pages/routes_b_page.dart';
@@ -23,6 +26,7 @@ class MyApp extends StatelessWidget {
       key: materialAppKey,
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldKey,
+      // home: const MyHomePage(),
       routes: {
         "HomePage": (context) => const MyHomePage(),
         "RoutesAPage": (context) => const RoutesAPage(),
@@ -47,9 +51,49 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [
         MyObserver(),
       ],
+      builder: (BuildContext context, Widget? child) {
+        return child ?? const MyHomePage();
+      },
       title: 'Flutter Demo',
+      onGenerateTitle: (_) {
+        return "Flutter GenerateTitle";
+      },
+      color: Colors.red,
       theme: ThemeData(primarySwatch: Colors.blue),
-      // home: const MyHomePage(),
+      darkTheme: ThemeData(primarySwatch: Colors.red),
+      highContrastTheme: ThemeData(primarySwatch: Colors.blue),
+      highContrastDarkTheme: ThemeData(primarySwatch: Colors.red),
+      themeMode: ThemeMode.light,
+      locale: const Locale('zh', 'CN'), // 中文简体
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
+      ],
+      localeListResolutionCallback:
+          (List<Locale>? locales, Iterable<Locale>? supportedLocales) {
+        // 系统切换语言时调用
+        return locales?.first ?? const Locale("zh", 'CN');
+      },
+      localeResolutionCallback:
+          (Locale? locale, Iterable<Locale>? supportedLocales) {
+        // 系统切换语言时调用
+        return const Locale("zh", 'CN');
+      },
+      supportedLocales: const [
+        Locale('en', 'US'), //美国英语
+        Locale("zh", 'CN'), //中文简体
+      ],
+      debugShowMaterialGrid: false,
+      showPerformanceOverlay: false,
+      checkerboardRasterCacheImages: false,
+      checkerboardOffscreenLayers: false,
+      showSemanticsDebugger: false,
+      debugShowCheckedModeBanner: true,
+      shortcuts: null,
+      actions: null,
+      restorationScopeId: "",
+      scrollBehavior: const ScrollBehaviorModified(),
       useInheritedMediaQuery: true,
     );
   }
